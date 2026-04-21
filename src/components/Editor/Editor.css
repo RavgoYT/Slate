@@ -1,0 +1,467 @@
+/* Editor.css */
+
+@import './mathfield.css';
+
+/* ── Pageless layout ─────────────────────────────────────────────────────────── */
+.editor-pageless-wrap {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 88px 0 80px;
+}
+.editor-pageless {
+    width: min(792px, 100%);
+    padding: 0 32px;
+    outline: none;
+    caret-color: var(--text-highlight-color);
+    color: var(--text-color);
+}
+
+/* ── Paged layout ────────────────────────────────────────────────────────────── */
+.editor-paged-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 88px 0 80px;
+    gap: 24px;
+}
+.editor-page {
+    border-radius: 3px;
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.12),
+        0 4px 20px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(255,255,255,0.04);
+    box-sizing: border-box;
+    overflow: visible;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+.editor-page::after {
+    content: attr(data-page);
+    position: absolute;
+    bottom: 8px; right: 12px;
+    font-size: 11px;
+    /* Bug 4: page number uses page-text color for contrast */
+    color: var(--page-text-secondary, var(--text-color-secondary));
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ── Bug 4: Page content color adapts to page background ────────────────────── */
+/* --page-text and --page-text-secondary are set as inline CSS vars on .editor-page */
+.editor-page .editor-content {
+    color: var(--page-text, var(--text-color));
+    caret-color: var(--text-highlight-color);
+}
+.editor-page .editor-content a {
+    color: #7ca5d6;
+}
+
+/* ── Bug 5 fix: page-break uses system font exclusively — no editor font override */
+.page-break {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color-secondary);
+    /* Use !important on every typographic property so the editor font hook
+       (which sets inline style on the parent) cannot bleed in */
+    font-family: 'Excalifont', Arial, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    user-select: none;
+    margin: 12px 0;
+    pointer-events: none;
+}
+/* Also lock child nodes (the <span> inside) */
+.page-break * {
+    font-family: 'Excalifont', Arial, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+}
+.page-break::before, .page-break::after {
+    content: ''; flex: 1; height: 1px; background: var(--border-color);
+}
+
+/* ── Editor content ──────────────────────────────────────────────────────────── */
+.editor-content {
+    outline: none;
+    caret-color: var(--text-highlight-color);
+    color: var(--text-color);
+    line-height: 1.7;
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.editor-paged { overflow: visible; }
+/* Fix: Placeholder now shows even if there is a <br> (the "extra backspace" bug) */
+.editor-content[data-placeholder]:empty::before,
+.editor-content[data-placeholder] > p:first-child:last-child:empty::before,
+.editor-content[data-placeholder] > p:first-child:last-child > br:only-child::before {
+    content: attr(data-placeholder);
+    color: var(--text-color-secondary);
+    pointer-events: none;
+    opacity: 0.5;
+    position: absolute; /* Keeps it from affecting line height */
+}
+
+/* Fix: Prevents the caret from jumping up by forcing a consistent line height */
+.editor-content p {
+    margin: 0 0 4px;
+    min-height: 1.7em; /* Matches your line-height */
+    position: relative;
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────────── */
+.editor-content p    { margin: 0 0 4px; min-height: 1.4em; }
+.editor-content h1   { margin: 12px 0 6px; }
+.editor-content h2   { margin: 10px 0 4px; }
+.editor-content h3   { margin: 8px 0 4px; }
+
+.editor-content a    { color: #7ca5d6; text-decoration: none; }
+.editor-content a:hover { text-decoration: underline; opacity: 0.85; }
+
+/* ── Lists ───────────────────────────────────────────────────────────────────── */
+.editor-content ul,
+.editor-content ol {
+    margin: 4px 0 8px;
+    padding-left: 1.8em;
+}
+.editor-content li { margin: 2px 0; line-height: 1.7; }
+
+.editor-content ul.list-style-arrow { list-style: none; padding-left: 1.5em; }
+.editor-content ul.list-style-arrow > li { position: relative; }
+.editor-content ul.list-style-arrow > li::before {
+    content: '▸';
+    position: absolute; left: -1.2em;
+    color: currentColor;
+}
+
+/* ── Inline color chip ────────────────────────────────────────────────────────── */
+.editor-color-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #2e2e2b;
+    border: 1px solid rgba(37,150,190,0.35);
+    border-radius: 8px;
+    padding: 2px 9px 2px 4px;
+    font-family: monospace;
+    font-size: 0.85em;
+    color: #df817e;
+    vertical-align: middle;
+    user-select: none;
+    cursor: default;
+    white-space: nowrap;
+}
+[data-theme='light'] .editor-color-chip { background: #f0eeeb; }
+
+.editor-color-chip__swatch {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    min-width: 12px;
+    min-height: 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.15);
+    flex-shrink: 0;
+}
+.editor-color-chip__label { line-height: 1; letter-spacing: 0.01em; }
+
+/* ── Tables ──────────────────────────────────────────────────────────────────── */
+.editor-table-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.editor-inserted-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+/* Round the four corner cells */
+.editor-inserted-table tr:first-child th:first-child { border-radius: 6px 0 0 0; }
+.editor-inserted-table tr:first-child th:last-child,
+.editor-inserted-table tr:first-child td:last-child  { border-radius: 0 6px 0 0; }
+.editor-inserted-table tr:last-child  td:first-child { border-radius: 0 0 0 6px; }
+.editor-inserted-table tr:last-child  td:last-child  { border-radius: 0 0 6px 0; }
+
+.editor-inserted-table th,
+.editor-inserted-table td {
+    position: relative;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 12px;
+    min-width: 60px;
+    vertical-align: top;
+    outline: none;
+    font-size: 13px;
+    color: var(--text-color);
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+.editor-inserted-table th:last-child,
+.editor-inserted-table td:last-child { border-right: none; }
+.editor-inserted-table tr:last-child td,
+.editor-inserted-table tr:last-child th { border-bottom: none; }
+
+.editor-inserted-table th {
+    background: rgba(101,99,137,0.18);
+    font-weight: 600;
+    text-align: left;
+}
+.editor-inserted-table td:focus,
+.editor-inserted-table th:focus {
+    background: rgba(101,99,137,0.08);
+    box-shadow: inset 0 0 0 2px rgba(124,165,214,0.4);
+}
+
+/* Bug 4: In paged mode, table text and header must contrast against the page bg.
+   --page-text is set as an inline CSS variable on .editor-page by Editor.jsx. */
+.editor-page .editor-inserted-table th,
+.editor-page .editor-inserted-table td {
+    color: var(--page-text, var(--text-color));
+    border-color: var(--page-border, var(--border-color));
+}
+.editor-page .editor-inserted-table {
+    border-color: var(--page-border, var(--border-color));
+}
+.editor-page .editor-inserted-table th {
+    /* On a light page (white), use a subtle tint; on dark page, use existing tint */
+    background: var(--page-th-bg, rgba(101,99,137,0.18));
+}
+
+/* ── Table +/- control strips ────────────────────────────────────────────────── */
+.table-ctrl {
+    position: absolute;
+    display: flex;
+    background: rgba(101,99,137,0.15);
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    z-index: 10;
+    overflow: hidden;
+    transition: opacity 0.15s;
+}
+.editor-table-wrapper:hover .table-ctrl { opacity: 1; }
+
+.table-ctrl--col {
+    flex-direction: column;
+    width: 20px;
+    border-radius: 0 4px 4px 0;
+}
+.table-ctrl--row {
+    flex-direction: row;
+    height: 20px;
+    border-radius: 0 0 4px 4px;
+}
+
+.table-ctrl-half {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-color-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: background 0.12s, color 0.12s;
+}
+.table-ctrl-half:hover { background: rgba(101,99,137,0.4); color: var(--text-highlight-color); }
+
+.table-ctrl--col .table-ctrl-half--top  { border-bottom: 1px solid var(--border-color); }
+.table-ctrl--row .table-ctrl-half--left { border-right:  1px solid var(--border-color); }
+
+/* ── Column resize handle ────────────────────────────────────────────────────── */
+.col-resize-handle {
+    position: absolute; right: -3px; top: 0;
+    width: 6px; height: 100%;
+    cursor: col-resize; z-index: 20;
+    background: transparent;
+    transition: background 0.1s;
+}
+.col-resize-handle:hover, .col-resize-handle.dragging { background: rgba(124,165,214,0.5); }
+
+/* ── Row resize handle ───────────────────────────────────────────────────────── */
+.row-resize-handle {
+    position: absolute; bottom: -3px; left: 0;
+    width: 100%; height: 6px;
+    cursor: row-resize; z-index: 20;
+    background: transparent;
+    transition: background 0.1s;
+}
+.row-resize-handle:hover, .row-resize-handle.dragging { background: rgba(124,165,214,0.5); }
+
+/* ── Link tooltip ──────────────────────────────────────────────────────────────── */
+.editor-link-tooltip {
+    position: fixed;
+    transform: translate(-50%, -100%);
+    background: var(--island-backdrop, #1e1e2e);
+    border: 1px solid var(--border-color, #444);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #7ca5d6;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9000;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.editor-link-tooltip.visible { opacity: 1; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+.editor-paged-wrap::-webkit-scrollbar,
+.editor-pageless-wrap::-webkit-scrollbar { width: 6px; }
+.editor-paged-wrap::-webkit-scrollbar-track,
+.editor-pageless-wrap::-webkit-scrollbar-track { background: transparent; }
+.editor-paged-wrap::-webkit-scrollbar-thumb,
+.editor-pageless-wrap::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+.editor-paged-wrap::-webkit-scrollbar-thumb:hover,
+.editor-pageless-wrap::-webkit-scrollbar-thumb:hover {
+    background: rgba(101,99,137,0.6);
+}
+
+/* ── Inline emoji images (Twemoji) ───────────────────────────────────────────── */
+/* Size is 1.2em so it scales with whatever font-size the block uses (h1, h2, body, etc.) */
+/* data-emoji-id attr is used to exclude these from image-resize transforms */
+.md-emoji {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: -0.2em;
+    object-fit: contain;
+    margin: 0 0.08em;
+    /* Change this from text to none */
+    user-select: none !important; 
+    pointer-events: auto !important;
+    cursor: default !important;
+    flex-shrink: 0;
+}
+/* Prevent any generic img styling from overriding emoji size */
+.md-emoji[data-emoji-id] {
+    max-width: 1.2em !important;
+    max-height: 1.2em !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   IMAGE BLOCK  — append to Editor.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.editor-image-block-host {
+    min-width: 24px;
+    min-height: 24px;
+    line-height: 0;
+    position: relative; /* Add this to enable z-index */
+    z-index: 10;        /* Elevates the image above the <p> tags */
+}
+
+.editor-image-block {
+    line-height: 0;
+    border-radius: 3px;
+}
+
+/* Toolbar now anchors to the BOTTOM of the image */
+.img-toolbar {
+    position: absolute;
+    bottom: -44px;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--island-backdrop, #1e1e2e);
+    border: 1px solid var(--border-color, #44445a);
+    border-radius: 7px;
+    padding: 3px 5px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+    white-space: nowrap;
+    pointer-events: auto;
+}
+
+.img-float-btn {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-color, #ccc);
+    font-size: 14px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: background 0.12s, color 0.12s;
+}
+
+.img-float-btn:hover {
+    background: var(--hover-bg, rgba(255,255,255,0.08));
+    color: var(--text-highlight-color, #fff);
+}
+
+.img-float-btn--active {
+    background: rgba(124,120,180,0.3);
+    color: var(--text-highlight-color, #fff);
+}
+
+.img-float-btn--delete:hover {
+    background: rgba(200,60,60,0.28);
+    color: #e07070;
+}
+
+.img-tb-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border-color, #44445a);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
+.img-handle:hover {
+    background: rgba(148,128,210,0.55) !important;
+    border-color: #b8a8e8 !important;
+}
+
+.img-rot-handle:hover {
+    background: rgba(148,128,210,0.25) !important;
+    border-color: #c8b0f0 !important;
+}
+
+/* Clearfix so floated images don't collapse parent */
+.editor-content::after,
+.editor-pageless::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.editor-content::selection,
+.editor-content *::selection {
+    background-color: #63628a;
+    color: inherit;
+}

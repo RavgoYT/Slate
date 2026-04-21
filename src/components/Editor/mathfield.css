@@ -1,0 +1,42 @@
+/* ── MathLive: seamless inline math ──────────────────────────────────────── */
+/* @import './mathfield.css';  ← top of Editor.css                            */
+
+.math-wrap {
+    display: inline;
+    outline: none !important;
+}
+
+math-field {
+    display: inline-block;
+    vertical-align: middle;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 1px;
+    font-size: inherit;
+    font-weight: bold;
+    line-height: 1.4;
+    min-width: 0.5ch;
+    max-width: 100%;
+    color: inherit;
+
+    --contains-highlight-background-color: transparent;
+    --contains-highlight-outline:          none;
+    --highlight-inactive-color:            transparent;
+    --primary-color:                       rgba(101, 99, 137, 0.7);
+    --selection-color:                     rgba(101, 99, 137, 0.25);
+    --caret-color:                         currentColor;
+    --smart-fence-color:                   currentColor;
+    --text-font-family:                    inherit;
+}
+
+math-field::part(virtual-keyboard-toggle) { display: none !important; }
+math-field::part(menu-toggle)             { display: none !important; }
+
+math-field:focus-within {
+    outline:    none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}

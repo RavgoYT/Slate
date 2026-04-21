@@ -1,0 +1,56 @@
+/* BottomToolbar.css */
+
+.bottom-toolbar {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    background: var(--island-backdrop);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.toolbar-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 15px;
+    padding: 0 12px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    line-height: 1;
+}
+
+.toolbar-btn:hover:not(:disabled) {
+    background: var(--hover-bg);
+    color: var(--text-highlight-color);
+}
+
+.toolbar-btn:disabled {
+    color: var(--text-color-secondary);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.zoom-label {
+    font-size: 13px;
+    min-width: 48px;
+    text-align: center;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}

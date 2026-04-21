@@ -1,0 +1,192 @@
+/* DocumentScrollbar.css */
+
+/* ── Hide native .App scrollbar ─────────────────────────────────────────── */
+.App { scrollbar-width: none; }
+.App::-webkit-scrollbar { display: none; }
+
+
+/* ── Wrapper ─────────────────────────────────────────────────────────────── */
+/* Default rightOffset prop is now 60px — overridden inline per instance.     */
+
+.doc-scrollbar {
+    position:    fixed;
+    top:         50%;
+    transform:   translateY(-50%);
+    z-index:     200;
+    height:      55vh;
+    min-height:  96px;
+    max-height:  580px;
+    width:       260px;         /* room for pill + gap + track */
+    pointer-events: none;
+}
+
+.zen-mode  .doc-scrollbar,
+.view-mode .doc-scrollbar {
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ── Track ───────────────────────────────────────────────────────────────── */
+.doc-scrollbar__track {
+    position:       absolute;
+    right:          0; top: 0; bottom: 0;
+    width:          3px;
+    background:     var(--border-color, rgba(255, 255, 255, 0.08));
+    border-radius:  99px;
+    cursor:         pointer;
+    pointer-events: auto;
+    transition:     width 0.18s ease, background 0.18s ease;
+}
+.doc-scrollbar__track:hover,
+.doc-scrollbar__track.is-dragging {
+    width:      6px;
+    background: rgba(101, 99, 137, 0.2);
+}
+
+
+/* ── Thumb ───────────────────────────────────────────────────────────────── */
+.doc-scrollbar__thumb {
+    position:       absolute;
+    left: 0; right: 0;
+    border-radius:  99px;
+    background:     rgba(101, 99, 137, 0.55);
+    cursor:         grab;
+    pointer-events: auto;
+    transition:     background 0.15s ease;
+}
+.doc-scrollbar__thumb:hover,
+.doc-scrollbar__track:hover .doc-scrollbar__thumb {
+    background: rgba(167, 165, 249, 0.8);
+}
+.doc-scrollbar__thumb.is-dragging {
+    cursor:     grabbing;
+    background: var(--text-highlight-color, #a7a5f9);
+}
+
+
+/* ── Dash markers ────────────────────────────────────────────────────────── */
+.doc-scrollbar__marker {
+    position:        absolute;
+    right:           8px;           /* gap between dash and track left edge */
+    transform:       translateY(-50%);
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    border:          none;
+    background:      transparent;
+    padding:         6px 0;
+    margin:          0;
+    cursor:          pointer;
+    outline:         none;
+    pointer-events:  auto;
+}
+
+.doc-scrollbar__marker-line {
+    display:       block;
+    width:         var(--tick-w, 10px);
+    height:        var(--tick-h, 2px);
+    border-radius: 99px;
+    /* Purple at rest */
+    background:    var(--btn-highlight-color, #656389);
+    transition:    background 0.15s ease, opacity 0.15s ease, width 0.15s ease;
+}
+
+.doc-scrollbar__marker--h1 .doc-scrollbar__marker-line { opacity: 0.9; }
+.doc-scrollbar__marker--h2 .doc-scrollbar__marker-line { opacity: 0.65; }
+.doc-scrollbar__marker--h3 .doc-scrollbar__marker-line { opacity: 0.4; }
+.doc-scrollbar__marker--h4 .doc-scrollbar__marker-line { opacity: 0.25; }
+
+/* Bright purple on hover */
+.doc-scrollbar__marker.is-hovered .doc-scrollbar__marker-line {
+    background: var(--text-highlight-color, #a7a5f9);
+    opacity:    1 !important;
+}
+
+
+/* ── Outline pill ────────────────────────────────────────────────────────── */
+/* Positioned absolutely within .doc-scrollbar.                               */
+/* `top` is set inline via JS to anchor near the hovered marker.              */
+
+.doc-scrollbar__outline {
+    position:       absolute;
+    right:          14px;           /* gap between pill right edge and track */
+    /* top set inline */
+    pointer-events: none;
+
+    background:     var(--island-backdrop, #1e1e26);
+    /* Dashed border using the bright highlight purple */
+    border:         1.5px dashed var(--text-highlight-color, #a7a5f9);
+    border-radius:  10px;
+    padding:        8px 0;
+    min-width:      148px;
+    max-width:      210px;
+
+    opacity:        0;
+    transform:      translateX(5px);
+    transition:     opacity 0.16s ease, transform 0.16s ease;
+}
+
+.doc-scrollbar__outline.is-open {
+    opacity:        1;
+    transform:      translateX(0);
+    pointer-events: auto;
+}
+
+
+/* ── Outline items ───────────────────────────────────────────────────────── */
+.doc-scrollbar__outline-item {
+    display:        block;
+    width:          100%;
+    text-align:     left;
+    background:     transparent;
+    border:         none;
+    cursor:         pointer;
+    outline:        none;
+    padding:        3px 14px;
+    line-height:    1.5;
+    font-family:    'Nunito', sans-serif;
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+    color:          var(--text-color-secondary, rgba(211, 211, 211, 0.45));
+    transition:     color 0.1s ease, background 0.1s ease;
+}
+.doc-scrollbar__outline-item:hover {
+    background: rgba(101, 99, 137, 0.12);
+    color:      var(--text-color, #d3d3d3);
+}
+.doc-scrollbar__outline-item.is-active {
+    color: var(--text-highlight-color, #a7a5f9) !important;
+}
+
+.doc-scrollbar__outline-item--h1 {
+    font-size:    12px;
+    font-weight:  600;
+    padding-left: 14px;
+    color:        var(--text-color, #d3d3d3);
+}
+.doc-scrollbar__outline-item--h2 {
+    font-size:    11.5px;
+    font-weight:  500;
+    padding-left: 22px;
+}
+.doc-scrollbar__outline-item--h3 {
+    font-size:    11px;
+    font-weight:  400;
+    padding-left: 30px;
+}
+.doc-scrollbar__outline-item--h4 {
+    font-size:    10.5px;
+    font-weight:  400;
+    padding-left: 38px;
+    color:        var(--text-color-secondary, rgba(211, 211, 211, 0.3));
+}
+
+
+/* ── Light theme ─────────────────────────────────────────────────────────── */
+[data-theme='light'] .doc-scrollbar__thumb           { background: rgba(101, 99, 137, 0.4); }
+[data-theme='light'] .doc-scrollbar__thumb:hover,
+[data-theme='light'] .doc-scrollbar__track:hover .doc-scrollbar__thumb { background: rgba(101, 99, 137, 0.75); }
+[data-theme='light'] .doc-scrollbar__marker-line     { background: var(--btn-highlight-color, #656389); }
+[data-theme='light'] .doc-scrollbar__outline         { border-color: var(--text-highlight-color, #a7a5f9); }

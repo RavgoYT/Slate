@@ -1,0 +1,237 @@
+/* Markdown.css  (v16) */
+
+/* ── Markdown markers (visible while editing, greyed out) ─────────────────── */
+.editor-content .md-marker {
+    color:          var(--text-color-tertiary, rgba(180,180,200,0.35));
+    font-weight:    normal !important;
+    font-style:     normal !important;
+    text-decoration: none  !important;
+    font-size:      inherit;
+    user-select:    none;
+    cursor:         text;
+}
+/* Markers inside styled spans keep same grey appearance */
+.editor-content .md-styled .md-marker,
+.editor-content strong .md-marker,
+.editor-content em .md-marker {
+    color: var(--text-color-tertiary, rgba(180,180,200,0.35));
+}
+
+/* ── Headings ─────────────────────────────────────────────────────────────── */
+.editor-content h1.md-heading,
+.editor-content h2.md-heading,
+.editor-content h3.md-heading {
+    font-weight: 700;
+    font-style:  normal;
+    line-height: 1.2;
+    margin:      0.15em 0 0.1em;
+    display:     block;
+}
+.editor-content h1.md-h1 { font-size: 2em;    }
+.editor-content h2.md-h2 { font-size: 1.5em;  }
+.editor-content h3.md-h3 { font-size: 1.17em; }
+
+/* ── Blockquote ───────────────────────────────────────────────────────────── */
+.editor-content blockquote.md-blockquote {
+    display:     block;
+    border-left: 4px solid var(--btn-highlight-color, #656389);
+    margin:      0.25em 0;
+    padding:     0.3em 0.3em 0.3em 1em;
+    color:       var(--text-color-secondary, #aaa);
+    font-style:  italic;
+    min-height:  1.4em;
+}
+/* Multi-line blockquote */
+.editor-content blockquote.md-bq-multi {
+    outline: none;
+}
+.editor-content blockquote.md-bq-multi p {
+    margin: 0;
+    padding: 0;
+    min-height: 1.2em;
+}
+
+/* ── Subtext ──────────────────────────────────────────────────────────────── */
+.editor-content p.md-subtext {
+    font-size:   0.75em;
+    color:       var(--text-color-secondary, #aaa);
+    line-height: 1.4;
+    margin:      0;
+}
+
+/* ── Lists ────────────────────────────────────────────────────────────────── */
+.editor-content ul.md-list,
+.editor-content ol.md-list {
+    padding-left: 1.6em;
+    margin:       0.15em 0;
+}
+.editor-content .md-list li {
+    line-height: 1.5;
+    margin:      0.08em 0;
+    min-height:  1.2em;
+}
+.editor-content .md-list li:focus { outline: none; }
+
+/* ── Rendered code block ──────────────────────────────────────────────────── */
+.editor-content pre.md-codeblock {
+    display:       block;
+    position:      relative;
+    margin:        0.5em 0;
+    border-radius: 8px;
+    border:        1px solid rgba(255, 255, 255, 0.07);
+    background:    #1a1b26;
+    overflow:      hidden;
+    cursor:        text;
+    transition:    border-color 0.15s;
+    /* Ensure styles persist across rehydration */
+    -webkit-font-smoothing: antialiased;
+}
+.editor-content pre.md-codeblock:hover {
+    border-color: var(--btn-highlight-color, #656389);
+}
+.editor-content pre.md-codeblock code.md-code-el {
+    display:     block    !important;
+    padding:     1em 1.1em !important;
+    font-size:   0.875em  !important;
+    line-height: 1.65     !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    background:  transparent !important;
+    white-space: pre         !important;
+    overflow-x:  auto;
+    outline:     none;
+    color:       #abb2bf;
+}
+.editor-content pre.md-codeblock--editing code.md-code-el {
+    white-space: pre-wrap !important;
+}
+.editor-content pre.md-codeblock--editing code.md-code-el * {
+    color:      inherit     !important;
+    background: transparent !important;
+}
+
+/* ── Language label ───────────────────────────────────────────────────────── */
+.editor-content .md-code-lang {
+    position:      absolute;
+    bottom:        0.45em;
+    right:         0.7em;
+    font-size:     0.66em;
+    font-family:   'Consolas', 'Monaco', 'Courier New', monospace;
+    color:         var(--btn-highlight-color, #a89fd8);
+    opacity:       0.5;
+    pointer-events: none;
+    user-select:    none;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    line-height:    1;
+}
+.editor-content pre.md-codeblock--editing .md-code-lang {
+    pointer-events: auto;
+    user-select:    text;
+    cursor:         text;
+    opacity:        0.9;
+    outline:        none;
+    border-bottom:  1px dashed var(--btn-highlight-color, #656389);
+}
+
+/* ── Copy button ──────────────────────────────────────────────────────────── */
+.editor-content .md-code-copy {
+    position:   absolute;
+    top:        0.5em;
+    right:      0.55em;
+    width:      26px;
+    height:     26px;
+    display:    flex;
+    align-items:     center;
+    justify-content: center;
+    background: rgba(101, 99, 137, 0.15);
+    color:      rgba(200, 200, 220, 0.6);
+    border:     1px solid rgba(101, 99, 137, 0.3);
+    border-radius: 5px;
+    cursor:     pointer;
+    opacity:    0;
+    transition: opacity 0.15s, background 0.12s, color 0.12s;
+    z-index:    2;
+    padding:    0;
+}
+.editor-content pre.md-codeblock:hover .md-code-copy { opacity: 1; }
+.editor-content .md-code-copy:hover {
+    background: rgba(101, 99, 137, 0.4);
+    color:      rgba(200, 200, 220, 1);
+}
+.editor-content .md-code-copy:active { transform: scale(0.93); }
+.editor-content .md-rawcode-store { display: none !important; }
+
+/* ── Inline code ──────────────────────────────────────────────────────────── */
+.editor-content code.md-inline-code {
+    font-family:   'Consolas', 'Monaco', 'Courier New', monospace;
+    font-style:    normal;
+    font-weight:   normal;
+    color:         #EE8885;
+    background:    #1a1b26;
+    border:        1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    padding:       0.1em 0.45em;
+    font-size:     0.875em;
+}
+
+/* ── Underline / strike ───────────────────────────────────────────────────── */
+.editor-content .md-underline { text-decoration: underline; }
+.editor-content .md-strike    { text-decoration: line-through; opacity: 0.75; }
+
+/* ── Link ─────────────────────────────────────────────────────────────────── */
+.editor-content a.md-link {
+    color:           var(--text-highlight-color, #a7a5f9);
+    text-decoration: underline;
+    cursor:          pointer;
+}
+.editor-content a.md-link:hover { opacity: 0.8; }
+
+/* ── Spoiler ──────────────────────────────────────────────────────────────── */
+.editor-content .md-spoiler {
+    background:    var(--text-color, #d3d3d3);
+    color:         transparent;
+    border-radius: 3px;
+    padding:       0 3px;
+    cursor:        pointer;
+    user-select:   none;
+    transition:    background 0.15s, color 0.15s;
+}
+.editor-content .md-spoiler.md-spoiler--revealed {
+    background: rgba(101, 99, 137, 0.3);
+    color:      inherit;
+}
+
+/* ── Inline emoji images (Twemoji) ───────────────────────────────────────────── */
+/* Size is 1.2em so it scales with whatever font-size the block uses (h1, h2, body, etc.) */
+/* data-emoji-id attr is used to exclude these from image-resize transforms */
+.md-emoji {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: -0.2em;
+    object-fit: contain;
+    margin: 0 0.05em;
+    /* Allow text selection to pass over emojis for copy/paste */
+    user-select: text;
+    /* pointer-events: none would block selection; use auto but contenteditable=false handles editing */
+    pointer-events: none;
+    /* Explicitly not a resizable image — transforms target [data-resizable], not .md-emoji */
+    flex-shrink: 0;
+    cursor: text;
+}
+/* Prevent any generic img styling from overriding emoji size */
+.md-emoji[data-emoji-id] {
+    max-width: 1.2em !important;
+    max-height: 1.2em !important;
+}
+/* ── Code block host (React-mounted CodeBlock.jsx) ───────────────────────── */
+.editor-code-block-host {
+    display:   block;
+    position:  relative;
+    overflow:  visible; /* caret strips extend left/right */
+    margin:    0.5em 0;
+}
+/* The <pre> inside the host loses its own margin (host owns it) */
+.editor-code-block-host > span > pre.md-codeblock {
+    margin: 0;
+}

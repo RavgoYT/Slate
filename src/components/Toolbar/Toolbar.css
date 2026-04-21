@@ -1,0 +1,337 @@
+/* Toolbar.css */
+
+/* ── Toolbar island ──────────────────────────────────────────────────────────── */
+.toolbar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 800;
+    user-select: none;
+    height: 44px;
+    background-color: var(--island-backdrop);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.26);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────────── */
+.tb-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-color);
+    margin: 0 5px;
+    flex-shrink: 0;
+}
+
+/* ── Base button ─────────────────────────────────────────────────────────────── */
+.tb-btn {
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+    height: 30px;
+    min-width: 30px;
+    padding: 0 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+    gap: 2px;
+}
+.tb-btn:hover:not(:disabled) {
+    background-color: var(--hover-bg);
+    color: var(--text-highlight-color);
+}
+.tb-btn--active {
+    background-color: rgba(101,99,137,0.25);
+    color: var(--text-highlight-color);
+}
+.tb-btn--disabled, .tb-btn:disabled {
+    color: var(--text-color-secondary);
+    cursor: not-allowed;
+}
+
+/* ── Dropdown trigger ────────────────────────────────────────────────────────── */
+.tb-dropdown__trigger {
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+    height: 30px;
+    padding: 0 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.15s ease;
+    white-space: nowrap;
+}
+.tb-dropdown__trigger:hover { background-color: var(--hover-bg); }
+
+.tb-dropdown__label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tb-dropdown__caret { font-size: 10px; color: var(--text-color-secondary); }
+
+/* ── Dropdown menu — rendered as position:fixed in JSX ──────────────────────── */
+.tb-dropdown__menu {
+    background-color: var(--island-backdrop);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    padding: 4px;
+    z-index: 2000;
+    max-height: 280px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.tb-dropdown__item {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 7px 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.12s ease, color 0.12s ease;
+    white-space: nowrap;
+}
+.tb-dropdown__item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-highlight-color);
+}
+
+/* ── Font size ───────────────────────────────────────────────────────────────── */
+.tb-fontsize {
+    display: flex;
+    align-items: center;
+    background-color: var(--hover-bg);
+    border-radius: 5px;
+    flex-shrink: 0;
+    height: 30px;
+}
+.tb-fontsize__btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+    width: 24px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    border-radius: 5px;
+}
+.tb-fontsize__btn:hover {
+    background-color: rgba(101,99,137,0.25);
+    color: var(--text-highlight-color);
+}
+.tb-fontsize__input {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 12px;
+    width: 36px;
+    height: 30px;
+    text-align: center;
+    outline: none;
+    appearance: textfield;
+    -moz-appearance: textfield;
+    user-select: text;
+}
+.tb-fontsize__input::-webkit-inner-spin-button,
+.tb-fontsize__input::-webkit-outer-spin-button { display: none; }
+
+/* ── Color button ────────────────────────────────────────────────────────────── */
+.tb-color-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: 30px;
+    padding: 3px 8px;
+}
+.tb-color-icon { font-size: 12px; font-weight: 700; line-height: 1; }
+.tb-color-bar  { width: 16px; height: 3px; border-radius: 2px; }
+
+/* ── Color picker popup ──────────────────────────────────────────────────────── */
+.clr-popup {
+    z-index: 2000;
+    width: 184px;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+}
+
+.clr-panel {
+    background-color: var(--island-backdrop);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px;
+    width: 184px;      /* exactly 160px SVG + 12px padding each side */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.clr-hex-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 160px;      /* matches SVG width */
+}
+
+.clr-preview {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+/* Bug 7 fix: JSX uses .clr-hex-chip wrapper + .clr-hex-chip__input, not .clr-hex-input */
+.clr-hex-chip {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+}
+
+.clr-hex-chip__input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-color);
+    font-family: monospace;
+    font-size: 11px;
+    padding: 4px 6px;
+    outline: none;
+    user-select: text;
+}
+.clr-hex-chip__input:focus { border-color: var(--text-highlight-color); }
+
+.clr-done {
+    background-color: rgba(101,99,137,0.3);
+    border: 1px solid var(--text-highlight-color);
+    border-radius: 5px;
+    color: var(--text-highlight-color);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 3px 7px;
+    flex-shrink: 0;
+    transition: background-color 0.15s ease;
+}
+.clr-done:hover { background-color: rgba(101,99,137,0.5); }
+
+.clr-recent-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 160px;      /* matches SVG width */
+}
+
+.clr-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.clr-swatch:hover {
+    transform: scale(1.15);
+    border-color: var(--text-highlight-color);
+}
+
+/* ── Bug 1 fix: table picker — no scrollbar, expands cleanly ─────────────────── */
+.tb-table-menu {
+    padding: 10px;
+    overflow: hidden;   /* prevent any scrollbar from appearing */
+    max-height: none;   /* override the generic .tb-dropdown__menu max-height */
+}
+
+/* Override the generic dropdown max-height for the table picker specifically */
+.tb-table-menu.tb-dropdown__menu {
+    max-height: none;
+    overflow: hidden;
+}
+
+.tb-table-picker {
+    overflow: hidden;
+}
+
+.tb-table-picker__label {
+    font-size: 11px;
+    color: var(--text-color-secondary);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.tb-table-picker__grid {
+    display: grid;
+    gap: 3px;
+    overflow: hidden;   /* no scrollbars; grid-template-columns is set inline by JSX */
+}
+
+.tb-table-cell {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+.tb-table-cell.active {
+    background-color: rgba(101,99,137,0.4);
+    border-color: var(--text-highlight-color);
+}
+.tb-table-cell:hover { border-color: var(--text-highlight-color); }
+
+/* ── Highlight clear button ──────────────────────────────────────────────────── */
+.clr-clear-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color-secondary);
+    font-family: inherit;
+    font-size: 12px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: background-color 0.12s, color 0.12s;
+    text-align: left;
+    border-radius: 0 0 6px 6px;
+    margin-top: 4px;
+}
+.clr-clear-btn:hover { background-color: var(--hover-bg); color: var(--text-color); }
+.clr-clear-icon { font-size: 14px; opacity: 0.7; }

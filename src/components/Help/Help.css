@@ -1,0 +1,173 @@
+.help-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-y: auto;
+    animation: fadeIn 0.15s ease;
+}
+
+.help-panel {
+    width: 860px;
+    max-width: 100%;
+    background: var(--island-backdrop);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 28px;
+}
+
+.help-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.help-title {
+    font-size: 22px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.help-close {
+    background: transparent;
+    border: none;
+    color: var(--text-color-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.help-close:hover {
+    color: var(--text-color);
+    background: var(--hover-bg);
+}
+
+.help-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.help-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.help-link-btn:hover {
+    border-color: var(--btn-highlight-color);
+    background: rgba(101,99,137,0.15);
+}
+
+.help-section-title {
+    font-size: 15px;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.help-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 40px;
+}
+
+.help-shortcuts-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.help-shortcuts-heading {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-color-secondary);
+    padding: 8px 0 6px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 4px;
+}
+
+.help-shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+    border-radius: 4px;
+    transition: background 0.1s ease;
+}
+
+.help-shortcut-row:hover {
+    background: var(--hover-bg);
+}
+
+.help-shortcut-label {
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+.help-shortcut-keys {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.help-kbd {
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--text-color);
+}
+
+.help-or {
+    font-size: 10px;
+    color: var(--text-color-secondary);
+}
+
+/* Help button — bottom right */
+.help-btn {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 500;
+    width: 34px;
+    height: 34px;
+    background: var(--island-backdrop);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--text-color);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.help-btn:hover {
+    background: var(--btn-highlight-color);
+}

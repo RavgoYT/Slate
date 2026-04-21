@@ -1,0 +1,139 @@
+/* App.css */
+
+@font-face {
+    font-family: 'Excalifont';
+    src: url('../fonts/Excalifont-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('../fonts/Nunito-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('../fonts/Nunito-Italic-VariableFont_wght.ttf') format('truetype');
+    font-style: italic;
+}
+
+:root {
+    --btn-highlight-color: #656389;
+    --text-highlight-color: #a7a5f9;
+}
+
+[data-theme='dark'],
+:root {
+    --background: #121212;
+    --text-color: #D3D3D3;
+    --text-color-secondary: rgba(211, 211, 211, 0.35);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(255, 255, 255, 0.07);
+    --island-backdrop: #232329;
+    --canvas-bg-1: #121212;
+    --canvas-bg-2: #161718;
+    --canvas-bg-3: #14171b;
+    --canvas-bg-4: #181606;
+    --canvas-bg-5: #1a1715;
+}
+
+[data-theme='light'] {
+    --background: #ffffff;
+    --text-color: #1a1a1a;
+    --text-color-secondary: rgba(26, 26, 26, 0.4);
+    --border-color: rgba(0, 0, 0, 0.12);
+    --hover-bg: rgba(0, 0, 0, 0.07);
+    --island-backdrop: #ececf3;
+    --canvas-bg-1: #ffffff;
+    --canvas-bg-2: #f8f9fa;
+    --canvas-bg-3: #f6fafe;
+    --canvas-bg-4: #fefcea;
+    --canvas-bg-5: #fcf8f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root {
+    height: 100%;
+    overflow: hidden; /* only .App scrolls, preventing a second scrollbar */
+    background-color: var(--background);
+    color: var(--text-color);
+}
+
+body {
+    font-family: 'Excalifont', Arial, sans-serif;
+}
+
+/* ── Global custom scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: rgba(101,99,137,0.35);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(101,99,137,0.65);
+}
+/* Firefox */
+* { scrollbar-width: thin; scrollbar-color: rgba(101,99,137,0.35) transparent; }
+
+h1 { color: var(--text-highlight-color); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.button {
+    background-color: var(--island-backdrop);
+    color: var(--text-color);
+    border: 2px solid var(--btn-highlight-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.button:hover { background-color: var(--btn-highlight-color); color: var(--background); }
+
+.App {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* sole scrollbar for the whole page */
+    padding: 20px;
+    background-color: var(--background);
+    color: var(--text-color);
+}
+
+/* ── Editor zoom wrapper ─────────────────────────────────────────────────────── */
+/* BottomToolbar applies transform: scale() to this element.                      */
+/* transform-origin: top center keeps pages horizontally centred while scaling.   */
+/* JS sets height dynamically to match scaled content so the page scrolls right.  */
+.editor-zoom-wrap {
+    transform-origin: top center;
+    transform: scale(1);
+    transition: transform 0.08s ease;
+    will-change: transform;
+}
+
+/* ── Zen / View mode animations ──────────────────────────────────────────────── */
+.toolbar,
+.hamburger,
+.help-btn,
+.bottom-toolbar {
+    transition:
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.zen-mode .toolbar,
+.view-mode .toolbar  { opacity: 0; transform: translateX(-50%) translateY(-120%); pointer-events: none; }
+.zen-mode .hamburger { opacity: 0; transform: translateX(-120%); pointer-events: none; }
+.zen-mode .bottom-toolbar,
+.view-mode .bottom-toolbar { opacity: 0; transform: translateX(-50%) translateY(120%); pointer-events: none; }
+.zen-mode .help-btn,
+.view-mode .help-btn { opacity: 0; transform: translateX(120%); pointer-events: none; }
+
+.zen-exit-btn,
+.view-exit-btn { animation: exitBtnAppear 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+@keyframes exitBtnAppear {
+    from { opacity: 0; transform: translateY(16px) scale(0.88); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}

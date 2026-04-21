@@ -1,0 +1,30 @@
+{
+  "name": "scratchpad",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/lato": "^5.2.7",
+    "@fontsource/merriweather": "^5.2.11",
+    "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/poppins": "^5.2.7",
+    "@fontsource/raleway": "^5.2.8",
+    "@fontsource/roboto": "^5.2.10",
+    "@fontsource/ubuntu": "^5.2.8",
+    "@vitejs/plugin-react": "^5.1.4",
+    "highlight.js": "^11.11.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-moveable": "^0.56.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1"
+  }
+}
