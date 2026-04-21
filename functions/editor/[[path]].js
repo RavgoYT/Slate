@@ -1,6 +1,6 @@
 export async function onRequest(context) {
-  // Try to serve the actual static asset first
-  const response = await context.next();
+  // Directly look up the static asset (no SPA fallback)
+  const response = await context.env.ASSETS.fetch(context.request);
   if (response.status !== 404) return response;
 
   // Asset not found — fall back to SPA entry point
