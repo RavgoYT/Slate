@@ -13,7 +13,7 @@ import {
     emojiImgHtml,
     isEmojiDataLoaded,
 } from './useEmoji';
-import { EmojiAutocomplete } from '../components/Editor/emojiPicker';
+import { EmojiAutocomplete } from '../components/Editor/EmojiPicker';
 import * as undoHistory from './undoHistory';
 
 // ── Module state ──────────────────────────────────────────────────────────────
