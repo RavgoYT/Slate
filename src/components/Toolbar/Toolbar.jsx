@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import EmojiPicker from '../Editor/emojiPicker.jsx';
+import EmojiPicker from '../Editor/EmojiPicker.jsx';
 import { emojiImgHtml, loadEmojiData } from '../../hooks/useEmoji';
 import '@fontsource/roboto';
 import '@fontsource/open-sans';
